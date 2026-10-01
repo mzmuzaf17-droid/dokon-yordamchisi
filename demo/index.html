@@ -6,6 +6,10 @@
 <title>Do'kon katalogi</title>
 <meta name="description" content="Katalogdan tanlang va bir necha bosishda buyurtma bering.">
 <meta name="theme-color" content="#F5F1EA">
+<meta property="og:title" content="Nafis Butik — onlayn katalog">
+<meta property="og:description" content="Kiyimni tanlang, razmerni belgilang va bir necha bosishda buyurtma bering.">
+<meta property="og:image" content="https://dokon-yordamchisi.vercel.app/og.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27%231D1A16%27/%3E%3Ctext x=%2732%27 y=%2745%27 font-family=%27Georgia,serif%27 font-size=%2738%27 font-weight=%27700%27 text-anchor=%27middle%27 fill=%27%23F5F1EA%27%3ED%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -144,6 +148,8 @@ footer b{color:var(--ink-2)}
 footer a{color:inherit;text-decoration:none}
 .toast{position:fixed;left:50%;top:14px;transform:translate(-50%,-80px);background:var(--ink);color:var(--surface);padding:10px 16px;border-radius:12px;font-weight:700;font-size:14px;z-index:50;transition:transform .25s;box-shadow:var(--shadow)}
 .toast.show{transform:translate(-50%,0)}
+html.embedded,html.embedded body{scrollbar-width:none}
+html.embedded::-webkit-scrollbar,html.embedded body::-webkit-scrollbar{display:none}
 </style>
 </head>
 <body>
@@ -164,7 +170,7 @@ footer a{color:inherit;text-decoration:none}
   <main class="grid" id="grid" aria-live="polite">
     <div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div>
   </main>
-  <footer><a href="/" target="_top"><b>Do'kon yordamchi</b> tizimida ishlaydi</a> · do'koningizga ham shunday kerakmi?</footer>
+  <footer><a href="/" target="_top" id="poweredBy"><b>Do'kon yordamchi</b> tizimida ishlaydi</a> · do'koningizga ham shunday kerakmi?</footer>
 </div>
 
 <div class="cartbar" id="cartbar">
@@ -186,6 +192,8 @@ footer a{color:inherit;text-decoration:none}
 var API = "https://jsvbpqbtxfmwravvdvpa.supabase.co/functions/v1/shop-api";
 var tg = window.Telegram && window.Telegram.WebApp;
 var inTG = !!(tg && tg.initData);
+var embedded = (function(){ try { return window.self !== window.top; } catch(e) { return true; } })();
+if (embedded && !inTG) { document.documentElement.setAttribute("data-theme","light"); document.documentElement.classList.add("embedded"); }
 var state = { shop:null, products:[], cart:[], view:null, sel:null };
 
 /* ---------- helpers ---------- */
@@ -383,6 +391,7 @@ function showDone(id,total){
   $("doneBtn").onclick=function(){ if(inTG){ try{ tg.close(); }catch(e){ closeSheet(); } } else closeSheet(); };
 }
 
+var pb=$("poweredBy"); if(pb && inTG){ pb.addEventListener("click",function(e){ e.preventDefault(); try{ tg.openLink(location.origin+"/"); }catch(_){ location.href="/"; } }); }
 load();
 })();
 </script>
