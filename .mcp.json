@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "scrape-creators": {
+      "type": "http",
+      "url": "https://api.scrapecreators.com/mcp",
+      "headers": {
+        "x-api-key": "${SCRAPECREATORS_API_KEY}"
+      }
+    }
+  }
+}
